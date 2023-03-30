@@ -10,9 +10,9 @@ boton::boton()
 	this->bandera = 0;
 }
 
-void boton::setMina(int mina)
+void boton::activarMina()
 {
-	this->mina = mina;
+	mina = 1;
 }
 
 int boton::getMina()
@@ -60,10 +60,12 @@ int boton::getActiva()
 	return activa;
 }
 
-void boton::setBandera()
+void boton::activarBandera()
 {
-	this->bandera = bandera;
+	bandera = 1;
 }
+
+
 
 int boton::getBandera()
 {

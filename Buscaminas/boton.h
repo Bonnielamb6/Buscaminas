@@ -10,7 +10,7 @@ private:
 	int bandera;//1 tiene la bandera puesta, 0 no tiene bandera puesta
 public:
 	boton();
-	void setMina(int mina);
+	void activarMina();
 	int getMina();
 	void setValor(int valor);
 	int getValor();
@@ -20,7 +20,7 @@ public:
 	int getColumna();
 	void setActiva(int activa);
 	int getActiva();
-	void setBandera();
+	void activarBandera();
 	int getBandera();
 };
 
