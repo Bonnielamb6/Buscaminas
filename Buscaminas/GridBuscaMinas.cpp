@@ -8,9 +8,7 @@ GridBuscaMinas::GridBuscaMinas(int filas, int columnas, int numeroMinas) :Grid(f
 	setColumnas(columnas);
 	this->matrizJuego = nullptr;
 	this->numeroMinas = numeroMinas;
-	this->ganar = 0;
-	this->perder = 0;
-	this->jugando = 1;
+	this->estado = 0;
 	llenarMatriz();
 	llenarMatrizBack();
 }
@@ -44,6 +42,9 @@ void GridBuscaMinas::agregarMinas()
 		{
 			matrizJuego[tempFila][tempColumna].activarMina();
 			matrizJuego[tempFila][tempColumna].setValor(-1);
+
+			posicionesMinas[minasGeneradas].setFila(tempFila);	//Agrego un boton con bomba a mi arreglo de botones con bombas con el valor de su fila y columna
+			posicionesMinas[minasGeneradas].setColumna(tempColumna);
 			minasGeneradas++;
 		}
 		
@@ -52,60 +53,36 @@ void GridBuscaMinas::agregarMinas()
 
 void GridBuscaMinas::actualizarNumMinasAlrededor()
 {
-	for (int i = 0; i < filas; i++) 
+	int i = 0;
+	while (i<numeroMinas)
+	{
+		sumarValoresAlrededorMina(posicionesMinas[i].getFila(), posicionesMinas[i].getColumna());
+		i++;
+	}
+	/*for (int i = 0; i < filas; i++) 
 	{
 		for (int j = 0; j < columnas; j++)
 		{
 			matrizJuego[i][j].getValor = determinarCantidadMinasAlrededor(i,j);
 		}
-	}
+	}*/
 }
 
-int GridBuscaMinas::determinarCantidadMinasAlrededor(int fila, int columna)
+int GridBuscaMinas::sumarValoresAlrededorMina(int filaTemp, int columnaTemp)
 {
-	valor = 0;
-	if (matrizJuego[fila][columna].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila--][columna].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila][columna--].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila--][columna--].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila++][columna].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila][columna++].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila++][columna++].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila++][columna--].getMina() == 1)
-	{
-		valor++;
-	}
-	if (matrizJuego[fila--][columna++].getMina() == 1)
-	{
-		valor++;
-	}
-	return valor;
+	matrizJuego[filaTemp--][columnaTemp].sumarUno();
+	matrizJuego[filaTemp][columnaTemp--].sumarUno();
+	matrizJuego[filaTemp--][columnaTemp--].sumarUno();
+	matrizJuego[filaTemp++][columnaTemp].sumarUno();
+	matrizJuego[filaTemp][columnaTemp++].sumarUno();
+	matrizJuego[filaTemp++][columnaTemp++].sumarUno();
+	matrizJuego[filaTemp--][columnaTemp++].sumarUno();
+	matrizJuego[filaTemp++][columnaTemp--].sumarUno();
 }
 
-void GridBuscaMinas::presionarBoton(int fila, int columna)
+void GridBuscaMinas::presionarBoton(int fila, int columna) //click izquierdo
 {
-	if (matrizJuego[fila][columna].getBandera == 0) 
+	if (matrizJuego[fila][columna].getEstado() != 1)
 	{
 		if (matrizJuego[fila][columna].getValor() == 0)//si no tiene ningun valor, entonces aplicar el algoritmo de flood
 		{
@@ -117,34 +94,19 @@ void GridBuscaMinas::presionarBoton(int fila, int columna)
 		}
 		if (matrizJuego[fila][columna].getMina() == 1)
 		{
-			perder = 1;
-			jugando = 0;
+			estado = -1;
 		}
 	}
 }
 
-void GridBuscaMinas::ponerBanera(int fila, int columna)
+void GridBuscaMinas::ponerBanera(int fila, int columna)//click derecho
 {
-	matrizJuego[fila][columna].
+	matrizJuego[fila][columna].setEstado(1);
 }
 
-
-int GridBuscaMinas::estadoJuego()
+int GridBuscaMinas::getEstado()
 {
-	int estado = 0;
-
-	if (jugando == 1)
-	{
-		estado = 1;
-	}
-	if (perder == 1)
-	{
-		estado = 0;
-	}
-	if (ganar == 1)
-	{
-		estado = 0;
-	}
-	return estado;//si regresamos 0 entonces se desactiva todo, si regresamos 1 entonces se puede seguir jugando
+	return estado;
 }
+
 

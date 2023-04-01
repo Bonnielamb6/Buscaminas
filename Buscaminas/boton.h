@@ -6,21 +6,20 @@ private:
 	int valor;//cuantas minas tiene alrededor,0 no tiene minas alrededor, 1 tiene 1 mina n tiene n minas
 	int fila;//en que fila esta
 	int columna;//en que columna esta
-	int activa;//1 aun se puede presionar, 0 ya fue usada
-	int bandera;//1 tiene la bandera puesta, 0 no tiene bandera puesta
+	int estado; //0 inhabilitado, -1 habilitado, 1 bandera     QUIZA 2 INUNDADO
 public:
 	boton();
 	void activarMina();
 	int getMina();
 	void setValor(int valor);
 	int getValor();
+	void sumarUno();
 	void setFila(int fila);
 	int getFila();
 	void setColumna(int columna);
 	int getColumna();
-	void setActiva(int activa);
-	int getActiva();
-	void activarBandera();
-	int getBandera();
+	void setEstado(int estado);
+	int getEstado();
+	
 };
 

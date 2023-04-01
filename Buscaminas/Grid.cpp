@@ -31,7 +31,7 @@ void Grid::llenarMatriz()
     // Ahora puedes acceder y modificar los elementos de la matriz como de costumbre
     for (int i = 0; i < this->filas; i++) {
         for (int j = 0; j < this->columnas; j++) {
-            this->matriz[i][j] = i * j;
+            this->matriz[i][j] = 0;//0 = VACIO
         }
     }
 }

@@ -6,13 +6,13 @@ boton::boton()
 	this->valor = 0;
 	this->fila = 0;
 	this->columna = 0;
-	this->activa = 1;
-	this->bandera = 0;
+	this->estado = 0;
 }
 
 void boton::activarMina()
 {
 	mina = 1;
+	valor = -1;
 }
 
 int boton::getMina()
@@ -28,6 +28,14 @@ void boton::setValor(int valor)
 int boton::getValor()
 {
 	return valor;
+}
+
+void boton::sumarUno()
+{
+	if (getMina() != 1) {
+		valor++;
+	}
+	
 }
 
 void boton::setFila(int fila)
@@ -50,24 +58,14 @@ int boton::getColumna()
 	return columna;
 }
 
-void boton::setActiva(int activa)
+void boton::setEstado(int estado)
 {
-	this->activa = activa;
+	this->estado = estado;
 }
 
-int boton::getActiva()
+int boton::getEstado()
 {
-	return activa;
-}
-
-void boton::activarBandera()
-{
-	bandera = 1;
+	return estado;
 }
 
 
-
-int boton::getBandera()
-{
-	return bandera;
-}
