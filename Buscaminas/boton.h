@@ -9,6 +9,7 @@ private:
 	int estado; //0 inhabilitado, -1 habilitado, 1 bandera     QUIZA 2 INUNDADO
 public:
 	boton();
+	boton(int fila, int columna, int valor, int estado);
 	void activarMina();
 	int getMina();
 	void setValor(int valor);

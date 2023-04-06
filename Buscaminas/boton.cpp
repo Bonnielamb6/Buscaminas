@@ -9,6 +9,15 @@ boton::boton()
 	this->estado = 0;
 }
 
+boton::boton(int fila, int columna, int valor, int estado)
+{
+	this->fila = fila;
+	this->columna = columna;
+	this->valor = valor;
+	this->estado = estado;
+	mina = 0;
+}
+
 void boton::activarMina()
 {
 	mina = 1;
@@ -17,6 +26,7 @@ void boton::activarMina()
 
 int boton::getMina()
 {
+	
 	return mina;
 }
 
@@ -32,10 +42,7 @@ int boton::getValor()
 
 void boton::sumarUno()
 {
-	if (getMina() != 1) {
-		valor++;
-	}
-	
+	valor++;
 }
 
 void boton::setFila(int fila)

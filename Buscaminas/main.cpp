@@ -47,6 +47,10 @@ int main()
     btn1.setPosition({ 450,5 });
     btn1.setFont(arial);
     
+    int filas = 0;
+    int columnas = 0;
+    int minas = 0;
+
     /*
     PONER LOS VALORES CORRECTOS DE FILAS Y COLUMNAS PARA LAS MATRICES
     PONERLE LAS MINAS Y VALORES A LAS MATRICES
@@ -85,10 +89,19 @@ int main()
                 case sf::Event::MouseButtonPressed: //SI SE PRESIONA EL BOTON DE JUGAR ENTONCES TENDRA QUE EMPEZAR LA PARTIDA
                     if (btn1.isMouseOver(window)) {
                         std::cout << "You clicked the button"<<std::endl;
-
+                        if (txtFilas.getText() == "" || txtColumnas.getText()=="" || txtMinas.getText()=="") {
+                        
+                        }
+                        else {
+                            filas = std::stoi(txtFilas.getText());
+                            columnas = std::stoi(txtColumnas.getText());
+                            minas = std::stoi(txtMinas.getText());
+                            GridBuscaMinas* juego = new GridBuscaMinas(filas, columnas, minas);
+                            
+                        }
                         //SI YA HAY UNO QUE ESTE APUNTANDO A ALGO DIFERENTE DE NULL ENTONCES BORRAR ESE PRIMERO Y VOLVER A DECLARARLO
                         //REVISAR QUE HAYA DATOS EN LOS TEXTBOXES PARA PODER MANDAR LOS VALORES
-                        //GridBuscaMinas* juego = new GridBuscaMinas(filas, columnas, bombas);
+                        
 
                     }
                     if (txtFilas.isMouseOver(window)) {

@@ -18,8 +18,10 @@ GridBuscaMinas::GridBuscaMinas(int filas, int columnas, int numeroMinas) :Grid(f
 	this->matrizJuego = nullptr;
 	this->numeroMinas = numeroMinas;
 	this->estado = 0;
+	this->posicionesMinas = new boton [numeroMinas];
 	llenarMatriz();
 	llenarMatrizJuego();
+	agregarMinas();
 }
 
 GridBuscaMinas::~GridBuscaMinas()
@@ -32,11 +34,16 @@ GridBuscaMinas::~GridBuscaMinas()
 
 void GridBuscaMinas::llenarMatrizJuego()
 {
-	for (int i = 0; i < filas; i++) 
-	{
-		for (int j = 0; j < columnas; j++) 
-		{
-			matrizJuego[i][j].setEstado(0);
+	this->matrizJuego = new boton* [this->filas];
+	for (int i = 0; i < this->filas; i++) {
+		this->matrizJuego[i] = new boton[this->columnas]; // crear un arreglo de enteros para cada fila
+	}
+	for (int i = 0; i < this->filas; i++) {
+		for (int j = 0; j < this->columnas; j++) {
+			this->matrizJuego[i][j].setFila(i);//0 = VACIO
+			this->matrizJuego[i][j].setEstado(j);
+			this->matrizJuego[i][j].setEstado(0);
+			this->matrizJuego[i][j].setValor(0);
 		}
 	}
 }
@@ -55,6 +62,7 @@ void GridBuscaMinas::agregarMinas()
 			posicionesMinas[minasGeneradas].setFila(tempFila);	//Agrego un boton con bomba a mi arreglo de botones con bombas con el valor de su fila y columna
 			posicionesMinas[minasGeneradas].setColumna(tempColumna);
 			minasGeneradas++;
+			sumarValoresAlrededorMina(tempFila,tempColumna);
 		}
 		
 	}
@@ -79,14 +87,33 @@ void GridBuscaMinas::actualizarNumMinasAlrededor()
 
 void GridBuscaMinas::sumarValoresAlrededorMina(int filaTemp, int columnaTemp)
 {
-	matrizJuego[filaTemp--][columnaTemp].sumarUno();
-	matrizJuego[filaTemp][columnaTemp--].sumarUno();
-	matrizJuego[filaTemp--][columnaTemp--].sumarUno();
-	matrizJuego[filaTemp++][columnaTemp].sumarUno();
-	matrizJuego[filaTemp][columnaTemp++].sumarUno();
-	matrizJuego[filaTemp++][columnaTemp++].sumarUno();
-	matrizJuego[filaTemp--][columnaTemp++].sumarUno();
-	matrizJuego[filaTemp++][columnaTemp--].sumarUno();
+	int fila = filaTemp;
+	int columna = columnaTemp;
+	if (!(fila - 1 < 0)) {
+		matrizJuego[fila - 1][columna].sumarUno();
+	}
+	if (!(columna - 1 < 0)) {
+		matrizJuego[fila][columna - 1].sumarUno();
+	}
+	if (!(fila - 1< 0) && !(columna - 1 < 0)) {
+		matrizJuego[fila - 1][columna - 1].sumarUno();
+	}
+	if (!(fila + 1 > filas - 1)) {
+		matrizJuego[fila + 1][columna].sumarUno();
+	}
+	if (!(columna + 1 > columnas - 1)) {
+		matrizJuego[fila][columna + 1].sumarUno();
+	}
+	if (!(fila + 1 > filas - 1) && !(columna + 1> columnas - 1)) {
+		matrizJuego[fila + 1][columna + 1].sumarUno();
+	}
+	if (!(fila - 1 < 0) && !(columna + 1 > columnas - 1)) {
+		matrizJuego[fila - 1][columna + 1].sumarUno();
+	}
+	if (!(fila + 1 > filas - 1) && !(columna - 1 < 0)) {
+		matrizJuego[fila + 1][columna - 1].sumarUno();
+	}
+	
 }
 
 void GridBuscaMinas::presionarBoton(int fila, int columna) //click izquierdo
