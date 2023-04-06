@@ -10,6 +10,7 @@ protected:
 	int** matriz;
 
 public:
+	Grid();
 	Grid(int filas, int columnas);
 	~Grid();
 	void llenarMatriz();

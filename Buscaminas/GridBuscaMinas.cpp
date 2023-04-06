@@ -2,15 +2,24 @@
 #include <math.h>
 #include <cstdlib>
 
+GridBuscaMinas::GridBuscaMinas()
+{
+	matrizJuego = nullptr;
+	numeroMinas = 0;
+	numBotonesFaltantes = 0;
+	estado = 0;
+	posicionesMinas = nullptr;
+}
+
 GridBuscaMinas::GridBuscaMinas(int filas, int columnas, int numeroMinas) :Grid(filas, columnas), numeroMinas(numeroMinas)
 {
-	setFilas(filas);
-	setColumnas(columnas);
+	this->filas = filas;
+	this->columnas = columnas;
 	this->matrizJuego = nullptr;
 	this->numeroMinas = numeroMinas;
 	this->estado = 0;
 	llenarMatriz();
-	llenarMatrizBack();
+	llenarMatrizJuego();
 }
 
 GridBuscaMinas::~GridBuscaMinas()
@@ -27,7 +36,7 @@ void GridBuscaMinas::llenarMatrizJuego()
 	{
 		for (int j = 0; j < columnas; j++) 
 		{
-			
+			matrizJuego[i][j].setEstado(0);
 		}
 	}
 }
@@ -68,7 +77,7 @@ void GridBuscaMinas::actualizarNumMinasAlrededor()
 	}*/
 }
 
-int GridBuscaMinas::sumarValoresAlrededorMina(int filaTemp, int columnaTemp)
+void GridBuscaMinas::sumarValoresAlrededorMina(int filaTemp, int columnaTemp)
 {
 	matrizJuego[filaTemp--][columnaTemp].sumarUno();
 	matrizJuego[filaTemp][columnaTemp--].sumarUno();

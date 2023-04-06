@@ -4,6 +4,13 @@
 using namespace std;
 
 
+Grid::Grid()
+{
+    filas = 0;
+    columnas = 0;
+    matriz = nullptr;
+}
+
 Grid::Grid(int filas, int columnas) {
     this->filas = filas;
     this->columnas = columnas;

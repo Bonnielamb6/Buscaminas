@@ -11,6 +11,7 @@ private:
 	int estado;//0 si esta jugando, 1 si gana, -1 si pierde
 	boton* posicionesMinas;//arreglo de botones con bombas
 public:
+	GridBuscaMinas();
 	GridBuscaMinas(int filas,int columnas,int numeroMinas);
 	~GridBuscaMinas();
 	void llenarMatrizJuego();
