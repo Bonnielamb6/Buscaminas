@@ -76,8 +76,8 @@ int main()
     {
         sf::Event event;
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        int mouseX = pos.x /2;
-        int mouseY = pos.y /2;
+        int mouseX = ((pos.x-100) / casillaAncho ) ;
+        int mouseY = ((pos.y-100) / casillaAncho ) ;
         
         //Loop para los eventos
         while (window.pollEvent(event))
@@ -100,18 +100,21 @@ int main()
                     }
                     break;
                 case sf::Event::MouseButtonPressed: //SI SE PRESIONA EL BOTON DE JUGAR ENTONCES TENDRA QUE EMPEZAR LA PARTIDA
+                    
                     if (juego->getEstado() == 0) {
-                        if (event.key.code == sf::Mouse::Left) {
-                            if (inGame[mouseX][mouseY].getEstado() != 1 && inGame[mouseX][mouseY].getEstado() != -1) {
-                                inGame[mouseX][mouseY].setEstado(-1);
+                        if (((pos.x>100 && pos.y > 100)) && (pos.x<(100+columnas*casillaAncho) && pos.y <(100+filas*casillaAncho))) {
+                            if (event.key.code == sf::Mouse::Left) {
+                                if (inGame[mouseX][mouseY].getEstado() != 1 && inGame[mouseX][mouseY].getEstado() != -1) {
+                                    inGame[mouseX][mouseY].setEstado(-1);
+                                }
                             }
-                        }
-                        if (event.key.code == sf::Mouse::Right) {
-                            if (inGame[mouseX][mouseY].getEstado() == 0) {
-                                inGame[mouseX][mouseY].setEstado(1);
-                            }
-                            else if (inGame[mouseX][mouseY].getEstado() == 1) {
-                                inGame[mouseX][mouseY].setEstado(0);
+                            if (event.key.code == sf::Mouse::Right) {
+                                if (inGame[mouseX][mouseY].getEstado() == 0) {
+                                    inGame[mouseX][mouseY].setEstado(1);
+                                }
+                                else if (inGame[mouseX][mouseY].getEstado() == 1) {
+                                    inGame[mouseX][mouseY].setEstado(0);
+                                }
                             }
                         }
                     }
