@@ -7,7 +7,7 @@ GridBuscaMinas::GridBuscaMinas()
 	matrizJuego = nullptr;
 	numeroMinas = 0;
 	numBotonesFaltantes = 0;
-	estado = -1;
+	estado = -2;
 	posicionesMinas = nullptr;
 }
 
@@ -118,23 +118,42 @@ void GridBuscaMinas::sumarValoresAlrededorMina(int filaTemp, int columnaTemp)
 	
 }
 
+int GridBuscaMinas::obtenerBotonesFaltantes()
+{
+	int btnFaltantes = 0;
+	for (int i = 0; i < filas; i++) {
+		for (int j = 0; j < columnas; j++) {
+			if (matrizJuego[i][j].getEstado() == 0 || matrizJuego[i][j].getEstado() == 1) {
+				btnFaltantes++;
+			}
+		}
+	}
+	return btnFaltantes;
+}
+
 void GridBuscaMinas::presionarBoton(int fila, int columna) //click izquierdo
 {
+	
 	if (matrizJuego[fila][columna].getEstado() != 1)
 	{
 		if (matrizJuego[fila][columna].getValor() == 0)//si no tiene ningun valor, entonces aplicar el algoritmo de flood
 		{
-			inundacion(fila, columna);
+			inundacion(fila, columna); 
+			numBotonesFaltantes = obtenerBotonesFaltantes();
 		}
 		if (matrizJuego[fila][columna].getValor() > 0) //si tiene un valor mayor a 0, o sea que hay una mina cerca, entonces solo mostrar ese boton
 		{
 			matrizJuego[fila][columna].setEstado(-1);
+			numBotonesFaltantes = obtenerBotonesFaltantes();
 		}
 		if (matrizJuego[fila][columna].getMina() == 1)
 		{
-			matrizJuego[fila][columna].setEstado(-1);
-			estado = -1;
+			setEstado(-1);
 		}
+		if (numBotonesFaltantes == numeroMinas) {
+			setEstado(1);
+		}
+		
 	}
 }
 
@@ -152,6 +171,11 @@ void GridBuscaMinas::ponerBanera(int fila, int columna)//click derecho
 int GridBuscaMinas::getEstado()
 {
 	return estado;
+}
+
+void GridBuscaMinas::setEstado(int estado)
+{
+	this->estado = estado;
 }
 
 void GridBuscaMinas::inundacion(int filaTemp, int columnaTemp)
@@ -191,13 +215,16 @@ void GridBuscaMinas::inundacion(int filaTemp, int columnaTemp)
 		matrizJuego[fila][columna].setEstado(-1);
 	}
 
-	/*inundacion(fila - 1, columna);
-	inundacion(fila, columna - 1);
-	inundacion(fila - 1, columna - 1);
-	inundacion(fila + 1, columna);
-	inundacion(fila, columna + 1);
-	inundacion(fila + 1, columna + 1);
-	inundacion(fila - 1, columna + 1);
-	inundacion(fila + 1, columna - 1);*/
+}
+
+void GridBuscaMinas::mostrarMinas()
+{
+	for (int i = 0; i < filas; i++) {
+		for (int j = 0; j < columnas; j++) {
+			if (matrizJuego[i][j].getMina() == 1) {
+				matrizJuego[i][j].setEstado(-1);
+			}
+		}
+	}
 }
 

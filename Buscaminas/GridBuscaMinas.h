@@ -23,9 +23,12 @@ public:
 	void actualizarNumMinasAlrededor();//aqui usare el arreglo de punteros para actualizar la tabla completa
 	void sumarValoresAlrededorMina(int fila, int columna);
 	//void obtenerBotonesMinas();
+	int obtenerBotonesFaltantes();
 	void presionarBoton(int fila, int columna);
 	void ponerBanera(int fila, int columna);
 	int getEstado();
+	void setEstado(int estado);
 	void inundacion(int filaTemp, int columnaTemp);
+	void mostrarMinas();
 };
 

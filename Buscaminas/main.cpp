@@ -55,20 +55,6 @@ int main()
     int filas = 0;
     int columnas = 0;
     int minas = 0;
-
-    
-
-    /*
-    PONER LOS VALORES CORRECTOS DE FILAS Y COLUMNAS PARA LAS MATRICES
-    PONERLE LAS MINAS Y VALORES A LAS MATRICES
-
-    ****
-            TO DO
-
-    DIBUJAR LAS CASILLAS
-    JUGAR
-    ACTUALIZAR LOS SPRITES CADA VEZ QUE PRESIONA UN BOTON
-    */
     
     
     //main loop
@@ -101,7 +87,8 @@ int main()
                     break;
                 case sf::Event::MouseButtonPressed: //SI SE PRESIONA EL BOTON DE JUGAR ENTONCES TENDRA QUE EMPEZAR LA PARTIDA
                     
-                    if (juego->getEstado() == 0) {
+                    
+                    if (juego->getEstado() == 0) {//EN JUEGO
                         if (((pos.x>100 && pos.y > 100)) && (pos.x<(100+columnas*casillaAncho) && pos.y <(100+filas*casillaAncho))) {
                             if (event.key.code == sf::Mouse::Left) {
                                 if (juego->matrizJuego[mouseX][mouseY].getEstado() != 1 && juego->matrizJuego[mouseX][mouseY].getEstado() != -1) {
@@ -111,7 +98,7 @@ int main()
                             }
                             if (event.key.code == sf::Mouse::Right) {
                                 if (juego->matrizJuego[mouseX][mouseY].getEstado() == 0) {
-                                    juego->matrizJuego[mouseX][mouseY].setEstado(1);
+                                    juego->ponerBanera(mouseX, mouseY);
                                 }
                                 else if (juego->matrizJuego[mouseX][mouseY].getEstado() == 1) {
                                     juego->ponerBanera(mouseX, mouseY);
@@ -119,6 +106,7 @@ int main()
                             }
                         }
                     }
+                    
 
 
                     if (btn1.isMouseOver(window)) {
@@ -131,12 +119,9 @@ int main()
                             inGame = juego->matrizJuego;
                             
                         }
-
-                        //SI YA HAY UNO QUE ESTE APUNTANDO A ALGO DIFERENTE DE NULL ENTONCES BORRAR ESE PRIMERO Y VOLVER A DECLARARLO
-                        //REVISAR QUE HAYA DATOS EN LOS TEXTBOXES PARA PODER MANDAR LOS VALORES
                         
-
                     }
+
                     if (txtFilas.isMouseOver(window)) {
                         txtFilas.setSelected(true);
                     }
@@ -154,13 +139,15 @@ int main()
                     }
                     else {
                         txtMinas.setSelected(false);
-                    }
-                    
-                    
+                    } 
                     break;
-                    
             }
-            
+        }
+        if (juego->getEstado() == -1) {//PERDIO
+            juego->mostrarMinas();
+        }
+        if (juego->getEstado() == 1) {//GANO
+            juego->mostrarMinas();
         }
         inGame = juego->matrizJuego;
         window.clear(sf::Color::Black);
