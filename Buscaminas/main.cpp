@@ -104,16 +104,17 @@ int main()
                     if (juego->getEstado() == 0) {
                         if (((pos.x>100 && pos.y > 100)) && (pos.x<(100+columnas*casillaAncho) && pos.y <(100+filas*casillaAncho))) {
                             if (event.key.code == sf::Mouse::Left) {
-                                if (inGame[mouseX][mouseY].getEstado() != 1 && inGame[mouseX][mouseY].getEstado() != -1) {
-                                    inGame[mouseX][mouseY].setEstado(-1);
+                                if (juego->matrizJuego[mouseX][mouseY].getEstado() != 1 && juego->matrizJuego[mouseX][mouseY].getEstado() != -1) {
+                                    juego->presionarBoton(mouseX, mouseY);
+                                    
                                 }
                             }
                             if (event.key.code == sf::Mouse::Right) {
-                                if (inGame[mouseX][mouseY].getEstado() == 0) {
-                                    inGame[mouseX][mouseY].setEstado(1);
+                                if (juego->matrizJuego[mouseX][mouseY].getEstado() == 0) {
+                                    juego->matrizJuego[mouseX][mouseY].setEstado(1);
                                 }
-                                else if (inGame[mouseX][mouseY].getEstado() == 1) {
-                                    inGame[mouseX][mouseY].setEstado(0);
+                                else if (juego->matrizJuego[mouseX][mouseY].getEstado() == 1) {
+                                    juego->ponerBanera(mouseX, mouseY);
                                 }
                             }
                         }
@@ -121,7 +122,7 @@ int main()
 
 
                     if (btn1.isMouseOver(window)) {
-                        std::cout << "You clicked the button"<<std::endl;
+                        
                         if (!(txtFilas.getText() == "") || !(txtColumnas.getText()=="") || !(txtMinas.getText()=="")) {
                             filas = std::stoi(txtFilas.getText());
                             columnas = std::stoi(txtColumnas.getText());
@@ -161,6 +162,7 @@ int main()
             }
             
         }
+        inGame = juego->matrizJuego;
         window.clear(sf::Color::Black);
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {

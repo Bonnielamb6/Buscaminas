@@ -41,7 +41,7 @@ void GridBuscaMinas::llenarMatrizJuego()
 	}
 	for (int i = 0; i < this->filas; i++) {
 		for (int j = 0; j < this->columnas; j++) {
-			this->matrizJuego[i][j].setFila(i);//0 = VACIO
+			this->matrizJuego[i][j].setFila(i);
 			this->matrizJuego[i][j].setColumna(j);
 			this->matrizJuego[i][j].setEstado(0);
 			this->matrizJuego[i][j].setValor(0);
@@ -59,7 +59,7 @@ void GridBuscaMinas::agregarMinas()
 		if (matrizJuego[tempFila][tempColumna].getMina() == 0)
 		{
 			matrizJuego[tempFila][tempColumna].activarMina();
-			matrizJuego[tempFila][tempColumna].setValor(9);
+			
 
 			posicionesMinas[minasGeneradas].setFila(tempFila);	//Agrego un boton con bomba a mi arreglo de botones con bombas con el valor de su fila y columna
 			posicionesMinas[minasGeneradas].setColumna(tempColumna);
@@ -124,14 +124,15 @@ void GridBuscaMinas::presionarBoton(int fila, int columna) //click izquierdo
 	{
 		if (matrizJuego[fila][columna].getValor() == 0)//si no tiene ningun valor, entonces aplicar el algoritmo de flood
 		{
-
+			inundacion(fila, columna);
 		}
 		if (matrizJuego[fila][columna].getValor() > 0) //si tiene un valor mayor a 0, o sea que hay una mina cerca, entonces solo mostrar ese boton
 		{
-
+			matrizJuego[fila][columna].setEstado(-1);
 		}
 		if (matrizJuego[fila][columna].getMina() == 1)
 		{
+			matrizJuego[fila][columna].setEstado(-1);
 			estado = -1;
 		}
 	}
@@ -139,7 +140,13 @@ void GridBuscaMinas::presionarBoton(int fila, int columna) //click izquierdo
 
 void GridBuscaMinas::ponerBanera(int fila, int columna)//click derecho
 {
-	matrizJuego[fila][columna].setEstado(1);
+	if (matrizJuego[fila][columna].getEstado() == 1) {
+		matrizJuego[fila][columna].setEstado(0);
+	}
+	else {
+		matrizJuego[fila][columna].setEstado(1);
+	}
+	
 }
 
 int GridBuscaMinas::getEstado()
@@ -147,6 +154,50 @@ int GridBuscaMinas::getEstado()
 	return estado;
 }
 
+void GridBuscaMinas::inundacion(int filaTemp, int columnaTemp)
+{
+	int fila = filaTemp;
+	int columna = columnaTemp;
+	
+	if (matrizJuego[fila][columna].getValor() == 0 && matrizJuego[fila][columna].getEstado() != 1 && matrizJuego[fila][columna].getEstado()!=-1) {
+		matrizJuego[fila][columna].setEstado(-1);
+		if (!(fila - 1 < 0)) {
+			inundacion(fila - 1, columna);
+		}
+		if (!(columna - 1 < 0)) {
+			inundacion(fila, columna - 1);
+		}
+		if (!(fila - 1 < 0) && !(columna - 1 < 0)) {
+			inundacion(fila - 1, columna - 1);
+		}
+		if (!(fila + 1 > filas - 1)) {
+			inundacion(fila + 1, columna);
+		}
+		if (!(columna + 1 > columnas - 1)) {
+			inundacion(fila, columna + 1);
+		}
+		if (!(fila + 1 > filas - 1) && !(columna + 1 > columnas - 1)) {
+			inundacion(fila + 1, columna + 1);
+		}
+		if (!(fila - 1 < 0) && !(columna + 1 > columnas - 1)) {
+			inundacion(fila - 1, columna + 1);
+		}
+		if (!(fila + 1 > filas - 1) && !(columna - 1 < 0)) {
+			inundacion(fila + 1, columna - 1);
+		}
+		
+	}
+	else if (matrizJuego[fila][columna].getValor() != 0 && matrizJuego[fila][columna].getValor() != 9 && matrizJuego[fila][columna].getEstado() != 1 && matrizJuego[fila][columna].getEstado() != -1) {
+		matrizJuego[fila][columna].setEstado(-1);
+	}
 
-
+	/*inundacion(fila - 1, columna);
+	inundacion(fila, columna - 1);
+	inundacion(fila - 1, columna - 1);
+	inundacion(fila + 1, columna);
+	inundacion(fila, columna + 1);
+	inundacion(fila + 1, columna + 1);
+	inundacion(fila - 1, columna + 1);
+	inundacion(fila + 1, columna - 1);*/
+}
 

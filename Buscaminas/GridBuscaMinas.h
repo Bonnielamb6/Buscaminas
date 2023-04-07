@@ -26,6 +26,6 @@ public:
 	void presionarBoton(int fila, int columna);
 	void ponerBanera(int fila, int columna);
 	int getEstado();
-
+	void inundacion(int filaTemp, int columnaTemp);
 };
 
