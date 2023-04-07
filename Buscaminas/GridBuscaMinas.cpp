@@ -7,7 +7,7 @@ GridBuscaMinas::GridBuscaMinas()
 	matrizJuego = nullptr;
 	numeroMinas = 0;
 	numBotonesFaltantes = 0;
-	estado = 0;
+	estado = -1;
 	posicionesMinas = nullptr;
 }
 

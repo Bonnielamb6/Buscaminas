@@ -27,5 +27,6 @@ public:
 	void setEstado(int estado);
 	int getEstado();
 	void setSprite(sf::Sprite imagen);
+	int dibujar();
 };
 

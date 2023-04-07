@@ -12,7 +12,7 @@
 
 int main()
 {
-    
+    GridBuscaMinas* juego = new GridBuscaMinas();
     sf::RenderWindow window;
 
     sf::Vector2i centerWindow((sf::VideoMode::getDesktopMode().width / 2) - 445, (sf::VideoMode::getDesktopMode().height / 2) - 480);
@@ -46,7 +46,7 @@ int main()
     TextBox txtMinas(15, sf::Color::Black, false, sf::Color::White, { 100,20 });
     txtMinas.setFont(arial);
     txtMinas.setPosition({ 300,5 });
-    txtMinas.setLimit(true, 2);
+    txtMinas.setLimit(true, 3);
 
     Button btn1("Jugar", { 100,30 }, 20, sf::Color::White, sf::Color::Black);
     btn1.setPosition({ 450,5 });
@@ -55,6 +55,8 @@ int main()
     int filas = 0;
     int columnas = 0;
     int minas = 0;
+
+    
 
     /*
     PONER LOS VALORES CORRECTOS DE FILAS Y COLUMNAS PARA LAS MATRICES
@@ -73,7 +75,9 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-
+        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        int mouseX = pos.x /2;
+        int mouseY = pos.y /2;
         
         //Loop para los eventos
         while (window.pollEvent(event))
@@ -96,13 +100,30 @@ int main()
                     }
                     break;
                 case sf::Event::MouseButtonPressed: //SI SE PRESIONA EL BOTON DE JUGAR ENTONCES TENDRA QUE EMPEZAR LA PARTIDA
+                    if (juego->getEstado() == 0) {
+                        if (event.key.code == sf::Mouse::Left) {
+                            if (inGame[mouseX][mouseY].getEstado() != 1 && inGame[mouseX][mouseY].getEstado() != -1) {
+                                inGame[mouseX][mouseY].setEstado(-1);
+                            }
+                        }
+                        if (event.key.code == sf::Mouse::Right) {
+                            if (inGame[mouseX][mouseY].getEstado() == 0) {
+                                inGame[mouseX][mouseY].setEstado(1);
+                            }
+                            else if (inGame[mouseX][mouseY].getEstado() == 1) {
+                                inGame[mouseX][mouseY].setEstado(0);
+                            }
+                        }
+                    }
+
+
                     if (btn1.isMouseOver(window)) {
                         std::cout << "You clicked the button"<<std::endl;
                         if (!(txtFilas.getText() == "") || !(txtColumnas.getText()=="") || !(txtMinas.getText()=="")) {
                             filas = std::stoi(txtFilas.getText());
                             columnas = std::stoi(txtColumnas.getText());
                             minas = std::stoi(txtMinas.getText());
-                            GridBuscaMinas* juego = new GridBuscaMinas(filas, columnas, minas);
+                            juego = new GridBuscaMinas(filas, columnas, minas);
                             inGame = juego->matrizJuego;
                             
                         }
@@ -131,13 +152,16 @@ int main()
                         txtMinas.setSelected(false);
                     }
                     
+                    
+                    break;
+                    
             }
             
         }
         window.clear(sf::Color::Black);
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                casilla.setTextureRect(sf::IntRect(inGame[i][j].getValor()*casillaAncho, 0, casillaAncho, casillaAncho));
+                casilla.setTextureRect(sf::IntRect(inGame[i][j].dibujar()*casillaAncho, 0, casillaAncho, casillaAncho));
                 casilla.setPosition(i * casillaAncho +100, j * casillaAncho +100);
                 window.draw(casilla);
             }

@@ -84,4 +84,17 @@ void boton::setSprite(sf::Sprite imagen)
 	this->imagen = imagen;
 }
 
+int boton::dibujar()
+{
+	if (estado == 0) {
+		return 10;
+	}
+	else if (estado == 1) {
+		return 11;
+	}
+	else if (estado == -1) {
+		return getValor();
+	}
+}
+
 
