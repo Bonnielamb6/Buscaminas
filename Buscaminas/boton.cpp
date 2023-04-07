@@ -9,19 +9,20 @@ boton::boton()
 	this->estado = 0;
 }
 
-boton::boton(int fila, int columna, int valor, int estado)
+boton::boton(int fila, int columna, int valor, int estado, sf::Sprite imagen)
 {
 	this->fila = fila;
 	this->columna = columna;
 	this->valor = valor;
 	this->estado = estado;
+	this->imagen = imagen;
 	mina = 0;
 }
 
 void boton::activarMina()
 {
 	mina = 1;
-	valor = -1;
+	valor = 9;
 }
 
 int boton::getMina()
@@ -42,7 +43,10 @@ int boton::getValor()
 
 void boton::sumarUno()
 {
-	valor++;
+	if (!getMina()) {
+		valor++;
+	}
+	
 }
 
 void boton::setFila(int fila)
@@ -73,6 +77,11 @@ void boton::setEstado(int estado)
 int boton::getEstado()
 {
 	return estado;
+}
+
+void boton::setSprite(sf::Sprite imagen)
+{
+	this->imagen = imagen;
 }
 
 

@@ -37,13 +37,15 @@ void GridBuscaMinas::llenarMatrizJuego()
 	this->matrizJuego = new boton* [this->filas];
 	for (int i = 0; i < this->filas; i++) {
 		this->matrizJuego[i] = new boton[this->columnas]; // crear un arreglo de enteros para cada fila
+		
 	}
 	for (int i = 0; i < this->filas; i++) {
 		for (int j = 0; j < this->columnas; j++) {
 			this->matrizJuego[i][j].setFila(i);//0 = VACIO
-			this->matrizJuego[i][j].setEstado(j);
+			this->matrizJuego[i][j].setColumna(j);
 			this->matrizJuego[i][j].setEstado(0);
 			this->matrizJuego[i][j].setValor(0);
+			
 		}
 	}
 }
@@ -57,7 +59,7 @@ void GridBuscaMinas::agregarMinas()
 		if (matrizJuego[tempFila][tempColumna].getMina() == 0)
 		{
 			matrizJuego[tempFila][tempColumna].activarMina();
-			matrizJuego[tempFila][tempColumna].setValor(-1);
+			matrizJuego[tempFila][tempColumna].setValor(9);
 
 			posicionesMinas[minasGeneradas].setFila(tempFila);	//Agrego un boton con bomba a mi arreglo de botones con bombas con el valor de su fila y columna
 			posicionesMinas[minasGeneradas].setColumna(tempColumna);
@@ -144,5 +146,7 @@ int GridBuscaMinas::getEstado()
 {
 	return estado;
 }
+
+
 
 

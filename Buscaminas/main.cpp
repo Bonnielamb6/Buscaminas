@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "TextBox.h"
 #include "Button.h"
+#include"boton.h"
 /*RECORDAR QUE TODO LO QUE PONGO AQUI DEBERE DE CAMBIARLO A UN ARCHIVO .RUN PARA SU MEJOR USO*/
 
 
@@ -20,6 +21,10 @@ int main()
     window.setPosition(centerWindow);
     
     window.setKeyRepeatEnabled(true);
+
+    //a cada boton de la matriz ponerle una textura y que el boton tenga una variable de tipo textura para que sean independientes
+    int casillaAncho = 32;
+    boton** inGame = new boton*();
 
     sf::Texture textura;
     textura.loadFromFile("images/tiles.jpg");
@@ -54,6 +59,10 @@ int main()
     /*
     PONER LOS VALORES CORRECTOS DE FILAS Y COLUMNAS PARA LAS MATRICES
     PONERLE LAS MINAS Y VALORES A LAS MATRICES
+
+    ****
+            TO DO
+
     DIBUJAR LAS CASILLAS
     JUGAR
     ACTUALIZAR LOS SPRITES CADA VEZ QUE PRESIONA UN BOTON
@@ -89,16 +98,15 @@ int main()
                 case sf::Event::MouseButtonPressed: //SI SE PRESIONA EL BOTON DE JUGAR ENTONCES TENDRA QUE EMPEZAR LA PARTIDA
                     if (btn1.isMouseOver(window)) {
                         std::cout << "You clicked the button"<<std::endl;
-                        if (txtFilas.getText() == "" || txtColumnas.getText()=="" || txtMinas.getText()=="") {
-                        
-                        }
-                        else {
+                        if (!(txtFilas.getText() == "") || !(txtColumnas.getText()=="") || !(txtMinas.getText()=="")) {
                             filas = std::stoi(txtFilas.getText());
                             columnas = std::stoi(txtColumnas.getText());
                             minas = std::stoi(txtMinas.getText());
                             GridBuscaMinas* juego = new GridBuscaMinas(filas, columnas, minas);
+                            inGame = juego->matrizJuego;
                             
                         }
+
                         //SI YA HAY UNO QUE ESTE APUNTANDO A ALGO DIFERENTE DE NULL ENTONCES BORRAR ESE PRIMERO Y VOLVER A DECLARARLO
                         //REVISAR QUE HAYA DATOS EN LOS TEXTBOXES PARA PODER MANDAR LOS VALORES
                         
@@ -126,8 +134,14 @@ int main()
             }
             
         }
-        
         window.clear(sf::Color::Black);
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                casilla.setTextureRect(sf::IntRect(inGame[i][j].getValor()*casillaAncho, 0, casillaAncho, casillaAncho));
+                casilla.setPosition(i * casillaAncho +100, j * casillaAncho +100);
+                window.draw(casilla);
+            }
+        }
         txtFilas.drawTo(window);
         txtColumnas.drawTo(window);
         txtMinas.drawTo(window);

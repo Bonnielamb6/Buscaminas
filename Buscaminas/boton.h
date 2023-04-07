@@ -1,4 +1,7 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include"SFML\Window.hpp"
+#include"SFML\System.hpp"
 class boton
 {
 private:
@@ -7,9 +10,11 @@ private:
 	int fila;//en que fila esta
 	int columna;//en que columna esta
 	int estado; //0 inhabilitado, -1 habilitado, 1 bandera     QUIZA 2 INUNDADO
+	sf::Sprite imagen;
+
 public:
 	boton();
-	boton(int fila, int columna, int valor, int estado);
+	boton(int fila, int columna, int valor, int estado,sf::Sprite imagen);
 	void activarMina();
 	int getMina();
 	void setValor(int valor);
@@ -21,6 +26,6 @@ public:
 	int getColumna();
 	void setEstado(int estado);
 	int getEstado();
-	
+	void setSprite(sf::Sprite imagen);
 };
 

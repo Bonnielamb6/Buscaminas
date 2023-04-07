@@ -5,12 +5,16 @@
 class GridBuscaMinas : public Grid
 {
 private:
-	boton** matrizJuego;//matriz que tendra las imagenes
+	//matriz que tendra las imagenes
 	int numeroMinas;//cantidad de minas en el grid
 	int numBotonesFaltantes;//botones faltantes que no tienen minas
 	int estado;//0 si esta jugando, 1 si gana, -1 si pierde
 	boton* posicionesMinas;//arreglo de botones con bombas
+
+
+
 public:
+	boton** matrizJuego;
 	GridBuscaMinas();
 	GridBuscaMinas(int filas,int columnas,int numeroMinas);
 	~GridBuscaMinas();
@@ -22,5 +26,6 @@ public:
 	void presionarBoton(int fila, int columna);
 	void ponerBanera(int fila, int columna);
 	int getEstado();
+
 };
 
